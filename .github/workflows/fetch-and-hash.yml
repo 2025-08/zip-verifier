@@ -1,0 +1,23 @@
+name: Fetch ZIP and Compute Hash
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fetch_and_hash:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch ZIP file
+        run: |
+          curl -L "https://easyradiology.aversiclinic.ge/eri/e391wodf-a8ibjzhp-2uzhl2d3-idaalpek.zip" -o file.zip
+
+      - name: Compute SHA-256 hash
+        run: |
+          sha256sum file.zip > hash.txt
+          cat hash.txt
+
+      - name: Upload hash to artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: zip-hash
+          path: hash.txt
