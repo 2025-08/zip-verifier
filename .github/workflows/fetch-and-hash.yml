@@ -1,4 +1,4 @@
-name: Fetch ZIP and Compute Hash
+name: Fetch 2GB ZIP and Compute Hash
 
 on:
   workflow_dispatch:
@@ -8,11 +8,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Fetch ZIP file with retry
+      - name: Install wget
+        run: sudo apt-get install wget
+
+      - name: Fetch ZIP file with wget
         run: |
-          curl -L --retry 5 --retry-delay 5 --max-time 300 \
-            -A "Mozilla/5.0" \
-            "https://easyradiology.aversiclinic.ge/eri/e391wodf-a8ibjzhp-2uzhl2d3-idaalpek.zip" -o file.zip
+          wget --tries=5 --timeout=600 --waitretry=10 \
+            --user-agent="Mozilla/5.0" \
+            "https://easyradiology.aversiclinic.ge/eri/e391wodf-a8ibjzhp-2uzhl2d3-idaalpek.zip" -O file.zip
 
       - name: Compute SHA-256 hash
         run: |
