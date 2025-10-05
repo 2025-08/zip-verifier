@@ -16,8 +16,8 @@ jobs:
           sha256sum file.zip > hash.txt
           cat hash.txt
 
-      - name: Upload hash to artifact
-        uses: actions/upload-artifact@v3
+      - name: Upload hash artifact
+        uses: actions/upload-artifact@v4
         with:
           name: zip-hash
           path: hash.txt
